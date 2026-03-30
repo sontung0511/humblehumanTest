@@ -1,0 +1,50 @@
+{
+  "suiteName": "Account & Login - Kiểm tra tài khoản và đăng nhập",
+  "baseUrl": "https://humblehuman.vn",
+  "scenarios": [
+    {
+      "id": "TC_AUTH_001",
+      "name": "Trang đăng nhập hiển thị tùy chọn đăng nhập Google và Apple",
+      "tags": ["smoke", "auth"],
+      "steps": [
+        { "action": "navigate", "url": "/account/login" },
+        { "action": "expect_text_visible", "value": "Tiếp tục với Google" },
+        { "action": "expect_text_visible", "value": "Tiếp tục với Apple" }
+      ]
+    },
+    {
+      "id": "TC_AUTH_002",
+      "name": "Trang đăng nhập hiển thị form nhập Email",
+      "tags": ["smoke", "auth"],
+      "steps": [
+        { "action": "navigate", "url": "/account/login" },
+        { "action": "expect_text_visible", "value": "Hoặc Email" },
+        { "action": "expect_text_visible", "value": "Tiếp tục" }
+      ]
+    },
+    {
+      "id": "TC_AUTH_003",
+      "name": "Trang đăng nhập có link quay lại trang mua sắm",
+      "tags": ["auth", "navigation"],
+      "steps": [
+        { "action": "navigate", "url": "/account/login" },
+        {
+          "action": "expect_text_visible",
+          "value": "Quay lại và tiếp tục mua hàng"
+        },
+        { "action": "click_text", "text": "Quay lại và tiếp tục mua hàng" },
+        { "action": "expect_url_contains", "url": "humblehuman.vn" }
+      ]
+    },
+    {
+      "id": "TC_AUTH_004",
+      "name": "Click icon Tài khoản trên header chuyển đến trang account",
+      "tags": ["navigation", "auth"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        { "action": "click", "selector": "a[href='/account']" },
+        { "action": "expect_url_contains", "url": "/account" }
+      ]
+    }
+  ]
+}

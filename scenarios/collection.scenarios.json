@@ -1,0 +1,90 @@
+{
+  "suiteName": "Collection Page - Kiểm tra trang danh mục sản phẩm",
+  "baseUrl": "https://humblehuman.vn",
+  "scenarios": [
+    {
+      "id": "TC_COL_001",
+      "name": "Trang 'Shop All' load và hiển thị heading 'Cửa hàng'",
+      "tags": ["smoke"],
+      "steps": [
+        { "action": "navigate", "url": "/collections/all" },
+        { "action": "expect_text", "selector": "h1", "value": "Cửa hàng" },
+        { "action": "expect_url_contains", "url": "/collections/all" }
+      ]
+    },
+    {
+      "id": "TC_COL_002",
+      "name": "Trang danh mục hiển thị ít nhất 1 sản phẩm",
+      "tags": ["smoke"],
+      "steps": [
+        { "action": "navigate", "url": "/collections/all" },
+        {
+          "action": "expect_count",
+          "selector": "a[href*='/products/']",
+          "count": 1,
+          "operator": "gte"
+        }
+      ]
+    },
+    {
+      "id": "TC_COL_003",
+      "name": "Menu điều hướng sang các danh mục: Áo, Quần, Túi, Nón",
+      "tags": ["navigation"],
+      "steps": [
+        { "action": "navigate", "url": "/collections/all" },
+        { "action": "expect_visible", "selector": "a[href='/collections/ao']" },
+        {
+          "action": "expect_visible",
+          "selector": "a[href='/collections/quan']"
+        },
+        {
+          "action": "expect_visible",
+          "selector": "a[href='/collections/tui']"
+        },
+        { "action": "expect_visible", "selector": "a[href='/collections/non']" }
+      ]
+    },
+    {
+      "id": "TC_COL_004",
+      "name": "Click vào danh mục 'Áo Khoác' hiển thị đúng trang",
+      "tags": ["navigation"],
+      "steps": [
+        { "action": "navigate", "url": "/collections/all" },
+        { "action": "click", "selector": "a[href='/collections/ao-khoac']" },
+        { "action": "expect_url_contains", "url": "/collections/ao-khoac" }
+      ]
+    },
+    {
+      "id": "TC_COL_005",
+      "name": "Click vào sản phẩm đầu tiên chuyển đến trang chi tiết sản phẩm",
+      "tags": ["navigation"],
+      "steps": [
+        { "action": "navigate", "url": "/collections/all" },
+        { "action": "click", "selector": "a[href*='/products/']" },
+        { "action": "expect_url_contains", "url": "/products/" },
+        { "action": "expect_visible", "selector": "h1" }
+      ]
+    },
+    {
+      "id": "TC_COL_006",
+      "name": "Phân trang hoạt động - kiểm tra nút sang trang 2",
+      "tags": ["pagination"],
+      "steps": [
+        { "action": "navigate", "url": "/collections/all" },
+        { "action": "expect_visible", "selector": "a[href*='?page=2']" },
+        { "action": "click", "selector": "a[href*='?page=2']" },
+        { "action": "expect_url_contains", "url": "page=2" }
+      ]
+    },
+    {
+      "id": "TC_COL_007",
+      "name": "Trang danh mục 'Nón' load đúng",
+      "tags": ["regression"],
+      "steps": [
+        { "action": "navigate", "url": "/collections/non" },
+        { "action": "expect_url_contains", "url": "/collections/non" },
+        { "action": "expect_visible", "selector": "h1" }
+      ]
+    }
+  ]
+}

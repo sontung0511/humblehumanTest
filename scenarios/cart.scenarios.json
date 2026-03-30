@@ -1,0 +1,77 @@
+{
+  "suiteName": "Cart Page - Kiểm tra trang giỏ hàng",
+  "baseUrl": "https://humblehuman.vn",
+  "scenarios": [
+    {
+      "id": "TC_CART_001",
+      "name": "Giỏ hàng trống hiển thị thông báo đúng",
+      "tags": ["smoke"],
+      "steps": [
+        { "action": "navigate", "url": "/cart" },
+        { "action": "expect_url_contains", "url": "/cart" },
+        { "action": "expect_text_visible", "value": "Hổng" }
+      ]
+    },
+    {
+      "id": "TC_CART_002",
+      "name": "Giỏ hàng trống hiển thị nút 'Mua sắm ngay'",
+      "tags": ["smoke", "ui"],
+      "steps": [
+        { "action": "navigate", "url": "/cart" },
+        {
+          "action": "expect_visible",
+          "selector": "a[href='/collections/all']"
+        },
+        { "action": "expect_text_visible", "value": "Mua sắm ngay" }
+      ]
+    },
+    {
+      "id": "TC_CART_003",
+      "name": "Banner freeship hiển thị khi giỏ hàng trống",
+      "tags": ["ui"],
+      "steps": [
+        { "action": "navigate", "url": "/cart" },
+        { "action": "expect_text_visible", "value": "Freeship" },
+        { "action": "expect_text_visible", "value": "500.000" }
+      ]
+    },
+    {
+      "id": "TC_CART_004",
+      "name": "Click 'Mua sắm ngay' từ giỏ hàng trống chuyển về trang shop",
+      "tags": ["navigation"],
+      "steps": [
+        { "action": "navigate", "url": "/cart" },
+        { "action": "click", "selector": "a[href='/collections/all']" },
+        { "action": "expect_url_contains", "url": "/collections/all" }
+      ]
+    },
+    {
+      "id": "TC_CART_005",
+      "name": "Thêm sản phẩm vào giỏ và kiểm tra giỏ hàng có hàng",
+      "tags": ["cart", "regression"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "click_text", "text": "THÊM VÀO GIỎ" },
+        { "action": "wait_for_url", "url": "/cart" },
+        { "action": "expect_url_contains", "url": "/cart" }
+      ]
+    },
+    {
+      "id": "TC_CART_006",
+      "name": "Số lượng sản phẩm trên header cart icon cập nhật sau khi thêm hàng",
+      "tags": ["cart"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "click_text", "text": "THÊM VÀO GIỎ" },
+        { "action": "wait_for_url", "url": "/cart" },
+        { "action": "expect_text_visible", "value": "1 sản phẩm" }
+      ]
+    }
+  ]
+}

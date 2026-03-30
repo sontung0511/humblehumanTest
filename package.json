@@ -1,0 +1,37 @@
+{
+  "name": "humblehumantest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "generate": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\",\"strict\":false,\"types\":[\"node\"]}' ts-node scripts/generate-tests.ts",
+    "generate:file": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\",\"strict\":false,\"types\":[\"node\"]}' ts-node scripts/generate-tests.ts --file",
+    "generate:tag": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\",\"strict\":false,\"types\":[\"node\"]}' ts-node scripts/generate-tests.ts --tag",
+    "test": "playwright test tests/generated/",
+    "test:header": "playwright test tests/generated/header.spec.ts",
+    "test:header:desktop": "playwright test tests/generated/header.spec.ts --grep desktop",
+    "test:header:mobile": "playwright test tests/generated/header.spec.ts --grep mobile",
+    "test:headed": "playwright test tests/generated/ --headed",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+    "test:debug": "playwright test tests/generated/ --debug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sontung0511/humblehumanTest.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sontung0511/humblehumanTest/issues"
+  },
+  "homepage": "https://github.com/sontung0511/humblehumanTest#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.5.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2"
+  }
+}

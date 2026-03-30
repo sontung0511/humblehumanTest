@@ -1,0 +1,89 @@
+{
+  "suiteName": "Search & Navigation - Kiểm tra tìm kiếm và điều hướng",
+  "baseUrl": "https://humblehuman.vn",
+  "scenarios": [
+    {
+      "id": "TC_SRCH_001",
+      "name": "Trang tìm kiếm load đúng với heading",
+      "tags": ["smoke"],
+      "steps": [
+        { "action": "navigate", "url": "/search" },
+        { "action": "expect_url_contains", "url": "/search" },
+        { "action": "expect_text_visible", "value": "Nhập từ khóa để tìm kiếm" }
+      ]
+    },
+    {
+      "id": "TC_SRCH_002",
+      "name": "Tìm kiếm từ khóa không tồn tại hiển thị thông báo không có kết quả",
+      "tags": ["search"],
+      "steps": [
+        { "action": "navigate", "url": "/search" },
+        {
+          "action": "fill",
+          "selector": "input[name='q']",
+          "value": "xyznotexists12345"
+        },
+        {
+          "action": "press_key",
+          "selector": "input[name='q']",
+          "key": "Enter"
+        },
+        {
+          "action": "expect_text_visible",
+          "value": "KHÔNG TÌM THẤY BẤT KỲ KẾT QUẢ NÀO"
+        }
+      ]
+    },
+    {
+      "id": "TC_SRCH_003",
+      "name": "Tìm kiếm từ khóa 'áo' trả về kết quả sản phẩm",
+      "tags": ["search"],
+      "steps": [
+        { "action": "navigate", "url": "/search" },
+        { "action": "fill", "selector": "input[name='q']", "value": "áo" },
+        {
+          "action": "press_key",
+          "selector": "input[name='q']",
+          "key": "Enter"
+        },
+        {
+          "action": "expect_count",
+          "selector": "a[href*='/products/']",
+          "count": 1,
+          "operator": "gte"
+        }
+      ]
+    },
+    {
+      "id": "TC_SRCH_004",
+      "name": "Click icon tìm kiếm trên header mở trang search",
+      "tags": ["navigation"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        { "action": "click", "selector": "a[href='/search']" },
+        { "action": "expect_url_contains", "url": "/search" }
+      ]
+    },
+    {
+      "id": "TC_NAV_001",
+      "name": "Navigation: Home → Shop All → About Us",
+      "tags": ["navigation", "regression"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        { "action": "click", "selector": "a[href='/collections/all']" },
+        { "action": "expect_url_contains", "url": "/collections/all" },
+        { "action": "click", "selector": "a[href*='/pages/about-us']" },
+        { "action": "expect_url_contains", "url": "/pages/about-us" }
+      ]
+    },
+    {
+      "id": "TC_NAV_002",
+      "name": "Navigation: Trang Life Story (blogs/news) load đúng",
+      "tags": ["navigation"],
+      "steps": [
+        { "action": "navigate", "url": "/blogs/news" },
+        { "action": "expect_url_contains", "url": "/blogs/news" }
+      ]
+    }
+  ]
+}

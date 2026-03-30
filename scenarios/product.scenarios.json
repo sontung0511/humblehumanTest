@@ -1,0 +1,135 @@
+{
+  "suiteName": "Product Page - Kiểm tra trang chi tiết sản phẩm",
+  "baseUrl": "https://humblehuman.vn",
+  "scenarios": [
+    {
+      "id": "TC_PRD_001",
+      "name": "Trang sản phẩm load và hiển thị tên sản phẩm",
+      "tags": ["smoke"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "expect_visible", "selector": "h1" },
+        { "action": "expect_text_visible", "value": "Muslin Cotton" }
+      ]
+    },
+    {
+      "id": "TC_PRD_002",
+      "name": "Giá sản phẩm hiển thị đúng (có ký tự ₫)",
+      "tags": ["smoke", "pricing"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "expect_text_visible", "value": "580,000" }
+      ]
+    },
+    {
+      "id": "TC_PRD_003",
+      "name": "Các tùy chọn màu sắc hiển thị (Đen, Xanh Bọt Biển)",
+      "tags": ["ui", "variants"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "expect_text_visible", "value": "MÀU SẮC" },
+        { "action": "expect_text_visible", "value": "Đen" }
+      ]
+    },
+    {
+      "id": "TC_PRD_004",
+      "name": "Các tùy chọn kích thước hiển thị (S, M, L)",
+      "tags": ["ui", "variants"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "expect_text_visible", "value": "KÍCH THƯỚC" },
+        { "action": "expect_text_visible", "value": "L" },
+        { "action": "expect_text_visible", "value": "M" },
+        { "action": "expect_text_visible", "value": "S" }
+      ]
+    },
+    {
+      "id": "TC_PRD_005",
+      "name": "Nút 'THÊM VÀO GIỎ' hiển thị trên trang sản phẩm",
+      "tags": ["smoke", "cart"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "expect_text_visible", "value": "THÊM VÀO GIỎ" }
+      ]
+    },
+    {
+      "id": "TC_PRD_006",
+      "name": "Nút 'MUA NGAY' hiển thị trên trang sản phẩm",
+      "tags": ["smoke", "cart"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "expect_text_visible", "value": "MUA NGAY" }
+      ]
+    },
+    {
+      "id": "TC_PRD_007",
+      "name": "Tùy chọn giao hàng 'Ship nhanh' và 'Lấy tại cửa hàng' hiển thị",
+      "tags": ["ui"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "expect_text_visible", "value": "GIAO HÀNG" },
+        { "action": "expect_text_visible", "value": "Ship nhanh" },
+        { "action": "expect_text_visible", "value": "Lấy tại cửa hàng" }
+      ]
+    },
+    {
+      "id": "TC_PRD_008",
+      "name": "Mô tả sản phẩm hiển thị nội dung",
+      "tags": ["ui"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "expect_text_visible", "value": "MÔ TẢ SẢN PHẨM" },
+        { "action": "expect_text_visible", "value": "Muslin Cotton" }
+      ]
+    },
+    {
+      "id": "TC_PRD_009",
+      "name": "Khu vực gợi ý sản phẩm 'GỢI Ý DÀNH CHO BẠN' hiển thị",
+      "tags": ["ui"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "scroll_to", "selector": "a[href*='/collections/ao']" },
+        { "action": "expect_text_visible", "value": "GỢI Ý DÀNH CHO BẠN" }
+      ]
+    },
+    {
+      "id": "TC_PRD_010",
+      "name": "Link 'Hướng dẫn chọn size' hiển thị",
+      "tags": ["ui"],
+      "steps": [
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "expect_text_visible", "value": "Hướng dẫn chọn size" }
+      ]
+    }
+  ]
+}

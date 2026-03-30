@@ -1,0 +1,77 @@
+{
+  "suiteName": "Home Page - Kiểm tra trang chủ",
+  "baseUrl": "https://humblehuman.vn",
+  "scenarios": [
+    {
+      "id": "TC_HOME_001",
+      "name": "Trang chủ load thành công và hiển thị đúng title",
+      "tags": ["smoke"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        { "action": "expect_title_contains", "value": "Humble Human" },
+        { "action": "expect_url_contains", "url": "humblehuman.vn" }
+      ]
+    },
+    {
+      "id": "TC_HOME_002",
+      "name": "Header hiển thị icon Tìm kiếm, Tài khoản, Giỏ hàng",
+      "tags": ["smoke", "ui"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        { "action": "expect_visible", "selector": "a[href='/search']" },
+        { "action": "expect_visible", "selector": "a[href='/account']" },
+        { "action": "expect_visible", "selector": "a[href='/cart']" }
+      ]
+    },
+    {
+      "id": "TC_HOME_003",
+      "name": "Banner quảng cáo 'Deal độc quyền' hiển thị",
+      "tags": ["ui"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_text_visible",
+          "value": "Deal độc quyền từ Online Store"
+        }
+      ]
+    },
+    {
+      "id": "TC_HOME_004",
+      "name": "Footer hiển thị thông tin bản quyền và số điện thoại",
+      "tags": ["ui"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        { "action": "scroll_to", "selector": "footer" },
+        {
+          "action": "expect_text_visible",
+          "value": "Humble Human CO., LTD 2024"
+        },
+        { "action": "expect_visible", "selector": "a[href='tel:0703695777']" }
+      ]
+    },
+    {
+      "id": "TC_HOME_005",
+      "name": "Click vào logo quay về trang chủ",
+      "tags": ["navigation"],
+      "steps": [
+        { "action": "navigate", "url": "/collections/all" },
+        { "action": "click", "selector": "a[href='/'] img, a.logo" },
+        { "action": "expect_url_contains", "url": "/" }
+      ]
+    },
+    {
+      "id": "TC_HOME_006",
+      "name": "Link 'THAM GIA' campaign hoạt động",
+      "tags": ["navigation"],
+      "steps": [
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_visible",
+          "selector": "a[href*='/pages/campaign']"
+        },
+        { "action": "click", "selector": "a[href*='/pages/campaign']" },
+        { "action": "expect_url_contains", "url": "/pages/campaign" }
+      ]
+    }
+  ]
+}

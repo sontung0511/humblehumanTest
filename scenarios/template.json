@@ -1,0 +1,127 @@
+{
+  "$schema": "./scenario-schema.json",
+  "_comment": "=== TEMPLATE - SAO CHÉP FILE NÀY ĐỂ TẠO TEST CASE MỚI ===",
+  "suiteName": "Tên bộ test của bạn",
+  "baseUrl": "https://humblehuman.vn",
+  "scenarios": [
+    {
+      "id": "TC001",
+      "name": "Mô tả test case ngắn gọn",
+      "tags": ["smoke", "regression"],
+      "steps": [
+        {
+          "_comment": "=== CÁC ACTION HỖ TRỢ ===",
+          "action": "navigate",
+          "url": "/",
+          "_doc": "Điều hướng đến đường dẫn (relative hoặc full URL)"
+        },
+        {
+          "action": "click",
+          "selector": "a[href='/cart']",
+          "_doc": "Click vào element với CSS selector"
+        },
+        {
+          "action": "click_text",
+          "text": "THÊM VÀO GIỎ",
+          "_doc": "Click theo text hiển thị trên trang"
+        },
+        {
+          "action": "fill",
+          "selector": "input[name='q']",
+          "value": "áo",
+          "_doc": "Nhập text vào input field"
+        },
+        {
+          "action": "press_key",
+          "selector": "input[name='q']",
+          "key": "Enter",
+          "_doc": "Nhấn phím trên element"
+        },
+        {
+          "action": "select_option",
+          "selector": "select[name='size']",
+          "value": "M",
+          "_doc": "Chọn option trong dropdown"
+        },
+        {
+          "action": "hover",
+          "selector": ".product-item",
+          "_doc": "Rê chuột vào element"
+        },
+        {
+          "action": "wait_for_url",
+          "url": "/cart",
+          "_doc": "Chờ URL chứa chuỗi này"
+        },
+        {
+          "action": "wait_for_selector",
+          "selector": ".cart-item",
+          "_doc": "Chờ element xuất hiện"
+        },
+        {
+          "action": "wait",
+          "ms": 1000,
+          "_doc": "Chờ số milliseconds nhất định"
+        },
+        {
+          "action": "expect_url",
+          "url": "https://humblehuman.vn/cart",
+          "_doc": "Kiểm tra URL hiện tại bằng exact URL"
+        },
+        {
+          "action": "expect_url_contains",
+          "url": "/cart",
+          "_doc": "Kiểm tra URL chứa chuỗi này"
+        },
+        {
+          "action": "expect_title_contains",
+          "value": "Humble Human",
+          "_doc": "Kiểm tra tiêu đề trang chứa text"
+        },
+        {
+          "action": "expect_visible",
+          "selector": "h1",
+          "_doc": "Kiểm tra element hiển thị trên trang"
+        },
+        {
+          "action": "expect_not_visible",
+          "selector": ".error-msg",
+          "_doc": "Kiểm tra element KHÔNG hiển thị"
+        },
+        {
+          "action": "expect_text",
+          "selector": "h1",
+          "value": "Cửa hàng",
+          "_doc": "Kiểm tra element chứa text cụ thể"
+        },
+        {
+          "action": "expect_text_visible",
+          "value": "THÊM VÀO GIỎ",
+          "_doc": "Kiểm tra text hiển thị ở bất kỳ đâu trên trang"
+        },
+        {
+          "action": "expect_count",
+          "selector": "a[href*='/products/']",
+          "count": 1,
+          "operator": "gte",
+          "_doc": "Kiểm tra số lượng element. operator: eq | gte | lte | gt | lt"
+        },
+        {
+          "action": "expect_enabled",
+          "selector": "button",
+          "_doc": "Kiểm tra element được enable"
+        },
+        {
+          "action": "expect_disabled",
+          "selector": "button",
+          "_doc": "Kiểm tra element bị disable"
+        },
+        {
+          "action": "scroll_to",
+          "selector": "footer",
+          "_doc": "Cuộn đến element"
+        }
+      ]
+    }
+  ]
+}

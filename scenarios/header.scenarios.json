@@ -1,0 +1,884 @@
+{
+  "suiteName": "Global Header - Desktop & Mobile",
+  "baseUrl": "https://humblehuman.vn",
+  "_menu_config": {
+    "Home": "/",
+    "Shop": "/collections/all",
+    "Campaign": "/collections/all",
+    "About": "/pages/about-us",
+    "Support": "/pages/support",
+    "Cart": "/cart"
+  },
+  "scenarios": [
+    {
+      "id": "TC_HDR_D_001",
+      "name": "[Desktop] Header hiển thị nhất quán trên tất cả pages",
+      "tags": ["desktop", "smoke", "regression"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        { "action": "navigate", "url": "/collections/all" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        { "action": "navigate", "url": "/collections/all" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        { "action": "navigate", "url": "/pages/about-us" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        { "action": "navigate", "url": "/pages/support" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        { "action": "navigate", "url": "/cart" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        { "action": "navigate", "url": "/search" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_002",
+      "name": "[Desktop] Header nằm ở top page (position fixed/sticky, top: 0)",
+      "tags": ["desktop", "smoke", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_css_property",
+          "selector": "header, [class*='header']",
+          "property": "position",
+          "value_contains": "fixed|sticky"
+        },
+        {
+          "action": "expect_css_property",
+          "selector": "header, [class*='header']",
+          "property": "top",
+          "value_contains": "0"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_003",
+      "name": "[Desktop] Header sticky - vẫn hiển thị sau khi scroll xuống",
+      "tags": ["desktop", "smoke", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        { "action": "scroll_by", "x": 0, "y": 800 },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        {
+          "action": "expect_in_viewport",
+          "selector": "header, [class*='header']"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_004",
+      "name": "[Desktop] Header không bị content che (z-index cao hơn content)",
+      "tags": ["desktop", "ui", "regression"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        { "action": "scroll_by", "x": 0, "y": 300 },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        {
+          "action": "expect_css_property",
+          "selector": "header, [class*='header']",
+          "property": "z-index",
+          "value_gte": "10"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_005",
+      "name": "[Desktop] Full navigation menu hiển thị đầy đủ (ngang)",
+      "tags": ["desktop", "smoke", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_visible",
+          "selector": "nav a[href='/'], nav a[href='/collections/all']"
+        },
+        { "action": "expect_text_visible", "value": "Shop" },
+        { "action": "expect_text_visible", "value": "About" },
+        { "action": "expect_text_visible", "value": "Support" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_006",
+      "name": "[Desktop] Click menu 'Home' điều hướng về trang chủ",
+      "tags": ["desktop", "navigation"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/collections/all" },
+        {
+          "action": "click",
+          "selector": "nav a[href='/'], header a[href='/']"
+        },
+        { "action": "expect_url", "url": "https://humblehuman.vn/" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_007",
+      "name": "[Desktop] Click menu 'Shop' điều hướng đến /collections/all",
+      "tags": ["desktop", "navigation"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "nav a[href='/collections/all'], header a[href='/collections/all']"
+        },
+        { "action": "expect_url_contains", "url": "/collections/all" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_008",
+      "name": "[Desktop] Click menu 'Campaign' điều hướng đúng URL",
+      "tags": ["desktop", "navigation"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        { "action": "click_text", "text": "Campaign" },
+        { "action": "expect_url_contains", "url": "/collections/all" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_009",
+      "name": "[Desktop] Click menu 'About' điều hướng đến /pages/about-us",
+      "tags": ["desktop", "navigation"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        { "action": "click_text", "text": "About" },
+        { "action": "expect_url_contains", "url": "/pages/about" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_010",
+      "name": "[Desktop] Click menu 'Support' điều hướng đến /pages/support",
+      "tags": ["desktop", "navigation"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        { "action": "click_text", "text": "Support" },
+        { "action": "expect_url_contains", "url": "/pages/support" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_011",
+      "name": "[Desktop] Click menu 'Cart' điều hướng đến /cart",
+      "tags": ["desktop", "navigation"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        { "action": "click", "selector": "a[href='/cart']" },
+        { "action": "expect_url_contains", "url": "/cart" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_012",
+      "name": "[Desktop] Click current page menu - không reload bất thường (ở Home click Home)",
+      "tags": ["desktop", "navigation", "regression"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_no_reload_on_click",
+          "selector": "nav a[href='/'], header a[href='/']"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_013",
+      "name": "[Desktop] Click current page menu - không reload bất thường (ở Shop click Shop)",
+      "tags": ["desktop", "navigation", "regression"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/collections/all" },
+        {
+          "action": "click",
+          "selector": "nav a[href='/collections/all'], header a[href='/collections/all']"
+        },
+        { "action": "expect_url_contains", "url": "/collections/all" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_014",
+      "name": "[Desktop] Menu hiển thị đúng theo config order_number",
+      "tags": ["desktop", "regression", "config"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_menu_order",
+          "items": ["Home", "Shop", "Campaign", "About", "Support"]
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_015",
+      "name": "[Desktop] Chỉ hiển thị menu item is_active = true",
+      "tags": ["desktop", "regression", "config"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_visible",
+          "selector": "nav a[href='/'], nav a[href='/collections/all']"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_016",
+      "name": "[Desktop] Logo hiển thị chính giữa header",
+      "tags": ["desktop", "smoke", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_visible",
+          "selector": "header a img, header .logo, header [class*='logo']"
+        },
+        {
+          "action": "expect_center_aligned",
+          "selector": "header a img, header .logo, header [class*='logo']"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_017",
+      "name": "[Desktop] Click logo (HUMBLE HUMAN) từ trang khác điều hướng về homepage",
+      "tags": ["desktop", "navigation"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/collections/all" },
+        {
+          "action": "click",
+          "selector": "header a[href='/'] img, header a[href='/'].logo, header [class*='logo'] a"
+        },
+        { "action": "expect_url", "url": "https://humblehuman.vn/" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_018",
+      "name": "[Desktop] Cart icon hiển thị đúng vị trí top-right",
+      "tags": ["desktop", "smoke", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        { "action": "expect_visible", "selector": "a[href='/cart']" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_019",
+      "name": "[Desktop] Click cart icon điều hướng đến cart page",
+      "tags": ["desktop", "smoke", "cart"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        { "action": "click", "selector": "a[href='/cart']" },
+        { "action": "expect_url_contains", "url": "/cart" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_020",
+      "name": "[Desktop] Cart badge hiển thị đúng số lượng sản phẩm trong giỏ",
+      "tags": ["desktop", "cart", "regression"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "click_text", "text": "THÊM VÀO GIỎ" },
+        { "action": "wait_for_url", "url": "/cart" },
+        { "action": "navigate", "url": "/" },
+        { "action": "expect_text_visible", "value": "1" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_021",
+      "name": "[Desktop] Theme light - text/icon/logo hiển thị đúng (readable)",
+      "tags": ["desktop", "ui", "theme"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_visible",
+          "selector": "header a img, header .logo"
+        },
+        { "action": "expect_visible", "selector": "a[href='/cart']" },
+        { "action": "expect_visible", "selector": "a[href='/search']" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_022",
+      "name": "[Desktop] Search icon - tìm kiếm đúng kết quả",
+      "tags": ["desktop", "search"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        { "action": "click", "selector": "a[href='/search']" },
+        { "action": "expect_url_contains", "url": "/search" },
+        { "action": "fill", "selector": "input[name='q']", "value": "áo" },
+        {
+          "action": "press_key",
+          "selector": "input[name='q']",
+          "key": "Enter"
+        },
+        {
+          "action": "expect_count",
+          "selector": "a[href*='/products/']",
+          "count": 1,
+          "operator": "gte"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_EDGE_001",
+      "name": "[Desktop][Edge] URL menu lỗi - UI không crash, header vẫn ổn định",
+      "tags": ["desktop", "edge"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/collections/non-existent-page-404" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        { "action": "expect_visible", "selector": "a[href='/cart']" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_EDGE_002",
+      "name": "[Desktop][Edge] Logo quá lớn - Logo tự scale fit, không vỡ header",
+      "tags": ["desktop", "edge", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_no_overflow",
+          "selector": "header, [class*='header']"
+        },
+        { "action": "expect_visible", "selector": "header a img, header .logo" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_EDGE_003",
+      "name": "[Desktop][Edge] Menu item tên quá dài - layout không vỡ",
+      "tags": ["desktop", "edge", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_no_overflow",
+          "selector": "nav, header nav"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_D_EDGE_004",
+      "name": "[Desktop][Edge] Không có menu item - Header vẫn hiển thị với logo và cart",
+      "tags": ["desktop", "edge"],
+      "steps": [
+        { "action": "set_viewport", "width": 1280, "height": 720 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_visible",
+          "selector": "header a img, header .logo, header [class*='logo']"
+        },
+        { "action": "expect_visible", "selector": "a[href='/cart']" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_001",
+      "name": "[Mobile] Header hiển thị nhất quán trên tất cả pages",
+      "tags": ["mobile", "smoke", "regression"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        { "action": "navigate", "url": "/collections/all" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        { "action": "navigate", "url": "/pages/about-us" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        { "action": "navigate", "url": "/pages/support" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        { "action": "navigate", "url": "/cart" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_002",
+      "name": "[Mobile] Header nằm ở top page (position fixed/sticky)",
+      "tags": ["mobile", "smoke", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_css_property",
+          "selector": "header, [class*='header']",
+          "property": "position",
+          "value_contains": "fixed|sticky"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_003",
+      "name": "[Mobile] Header sticky - vẫn hiển thị sau khi scroll",
+      "tags": ["mobile", "smoke", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        { "action": "scroll_by", "x": 0, "y": 800 },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        {
+          "action": "expect_in_viewport",
+          "selector": "header, [class*='header']"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_004",
+      "name": "[Mobile] Burger icon hiển thị thay cho thanh menu ngang",
+      "tags": ["mobile", "smoke", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_visible",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu'], [aria-label*='Menu']"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_005",
+      "name": "[Mobile] Click burger icon mở overlay menu full screen",
+      "tags": ["mobile", "smoke", "burger"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu'], [aria-label*='Menu']"
+        },
+        { "action": "wait", "ms": 500 },
+        {
+          "action": "expect_visible",
+          "selector": "[class*='overlay'], [class*='mobile-menu'], [class*='drawer'], nav[class*='mobile']"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_006",
+      "name": "[Mobile] Click X đóng overlay thành công",
+      "tags": ["mobile", "smoke", "burger"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 500 },
+        {
+          "action": "click",
+          "selector": "button[aria-label*='close'], button[class*='close'], [class*='overlay'] button.close, [class*='menu'] button[class*='close']"
+        },
+        { "action": "wait", "ms": 500 },
+        {
+          "action": "expect_not_visible",
+          "selector": "[class*='overlay'], [class*='mobile-menu'], [class*='drawer']"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_007",
+      "name": "[Mobile] Click menu item trong overlay - overlay tự đóng và navigate đúng URL",
+      "tags": ["mobile", "burger", "navigation"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 500 },
+        {
+          "action": "click",
+          "selector": "[class*='overlay'] a[href='/collections/all'], [class*='mobile-menu'] a[href='/collections/all'], nav a[href='/collections/all']"
+        },
+        { "action": "expect_url_contains", "url": "/collections/all" },
+        {
+          "action": "expect_not_visible",
+          "selector": "[class*='overlay'], [class*='mobile-menu'], [class*='drawer']"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_008",
+      "name": "[Mobile] Click menu item 'About' trong overlay điều hướng đến /pages/about-us",
+      "tags": ["mobile", "burger", "navigation"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 500 },
+        { "action": "click_text", "text": "About" },
+        { "action": "expect_url_contains", "url": "/pages/about" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_009",
+      "name": "[Mobile] Click menu item 'Support' trong overlay điều hướng đến /pages/support",
+      "tags": ["mobile", "burger", "navigation"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 500 },
+        { "action": "click_text", "text": "Support" },
+        { "action": "expect_url_contains", "url": "/pages/support" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_010",
+      "name": "[Mobile] Click current page menu (Home → click Home) - không reload bất thường",
+      "tags": ["mobile", "navigation", "regression"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 500 },
+        {
+          "action": "click",
+          "selector": "a[href='/']"
+        },
+        { "action": "expect_url", "url": "https://humblehuman.vn/" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_011",
+      "name": "[Mobile] Overlay lock body scroll - background không scroll khi overlay mở",
+      "tags": ["mobile", "burger", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 500 },
+        {
+          "action": "expect_css_property",
+          "selector": "body",
+          "property": "overflow",
+          "value_contains": "hidden"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_012",
+      "name": "[Mobile] Menu overlay hiển thị đúng theo config order_number",
+      "tags": ["mobile", "regression", "config"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 500 },
+        {
+          "action": "expect_menu_order",
+          "items": ["Home", "Shop", "Campaign", "About", "Support"]
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_013",
+      "name": "[Mobile] Overlay chỉ hiển thị item is_active = true",
+      "tags": ["mobile", "regression", "config"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 500 },
+        {
+          "action": "expect_visible",
+          "selector": "a[href='/'], a[href='/collections/all']"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_014",
+      "name": "[Mobile] Logo hiển thị chính giữa header khi overlay đóng",
+      "tags": ["mobile", "smoke", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_visible",
+          "selector": "header a img, header .logo, header [class*='logo']"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_015",
+      "name": "[Mobile] Click logo (HUMBLE HUMAN) từ trang khác điều hướng về homepage",
+      "tags": ["mobile", "navigation"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/collections/all" },
+        {
+          "action": "click",
+          "selector": "header a[href='/'] img, header a[href='/'].logo, header [class*='logo'] a, header a[href='/']"
+        },
+        { "action": "expect_url", "url": "https://humblehuman.vn/" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_016",
+      "name": "[Mobile] Cart icon hiển thị đúng vị trí top-right",
+      "tags": ["mobile", "smoke", "ui", "cart"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        { "action": "expect_visible", "selector": "a[href='/cart']" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_017",
+      "name": "[Mobile] Click cart icon điều hướng đến Cart page",
+      "tags": ["mobile", "smoke", "cart", "navigation"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        { "action": "click", "selector": "a[href='/cart']" },
+        { "action": "expect_url_contains", "url": "/cart" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_018",
+      "name": "[Mobile] Cart badge hiển thị đúng số lượng sản phẩm trong giỏ",
+      "tags": ["mobile", "cart", "regression"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        {
+          "action": "navigate",
+          "url": "/products/nhan-ban-tu-hum-effortless-long-sleeve-shirt-muslin-cotton-black"
+        },
+        { "action": "click_text", "text": "THÊM VÀO GIỎ" },
+        { "action": "wait_for_url", "url": "/cart" },
+        { "action": "navigate", "url": "/" },
+        { "action": "expect_text_visible", "value": "1" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_EDGE_001",
+      "name": "[Mobile][Edge] URL menu lỗi - UI không crash, header vẫn ổn định",
+      "tags": ["mobile", "edge"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/collections/non-existent-page-404" },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        { "action": "expect_visible", "selector": "a[href='/cart']" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_EDGE_002",
+      "name": "[Mobile][Edge] Logo quá lớn - Logo tự scale fit, không vỡ header",
+      "tags": ["mobile", "edge", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_no_overflow",
+          "selector": "header, [class*='header']"
+        },
+        { "action": "expect_visible", "selector": "header a img, header .logo" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_EDGE_003",
+      "name": "[Mobile][Edge] Menu item tên quá dài trong overlay - Layout overlay không vỡ",
+      "tags": ["mobile", "edge", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 500 },
+        {
+          "action": "expect_no_overflow",
+          "selector": "[class*='overlay'], [class*='mobile-menu'], [class*='drawer']"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_EDGE_004",
+      "name": "[Mobile][Edge] Không có menu item - Header vẫn hiển thị với logo và cart",
+      "tags": ["mobile", "edge"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_visible",
+          "selector": "header a img, header .logo, header [class*='logo']"
+        },
+        { "action": "expect_visible", "selector": "a[href='/cart']" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_EDGE_005",
+      "name": "[Mobile][Edge] Xoay màn hình khi overlay mở - Overlay vẫn đúng layout",
+      "tags": ["mobile", "edge", "ui"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 500 },
+        { "action": "set_viewport", "width": 844, "height": 390 },
+        { "action": "wait", "ms": 500 },
+        {
+          "action": "expect_no_overflow",
+          "selector": "[class*='overlay'], [class*='mobile-menu'], [class*='drawer']"
+        },
+        { "action": "expect_visible", "selector": "a[href='/cart']" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_EDGE_006",
+      "name": "[Mobile][Edge] Spam click burger - Không mở nhiều overlay chồng nhau",
+      "tags": ["mobile", "edge"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 100 },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 100 },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 500 },
+        {
+          "action": "expect_count",
+          "selector": "[class*='overlay'], [class*='mobile-menu'], [class*='drawer']",
+          "count": 1,
+          "operator": "lte"
+        }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_EDGE_007",
+      "name": "[Mobile][Edge] Click trong khi overlay đang animation - UI không lỗi",
+      "tags": ["mobile", "edge"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "click",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        },
+        { "action": "wait", "ms": 100 },
+        {
+          "action": "click",
+          "selector": "button[aria-label*='close'], button[class*='close'], [class*='overlay'] button.close"
+        },
+        { "action": "wait", "ms": 600 },
+        { "action": "expect_visible", "selector": "header, [class*='header']" },
+        { "action": "expect_visible", "selector": "a[href='/cart']" }
+      ]
+    },
+
+    {
+      "id": "TC_HDR_M_EDGE_008",
+      "name": "[Mobile][Edge] Sai theme config - Text/icon/logo vẫn readable",
+      "tags": ["mobile", "edge", "theme"],
+      "steps": [
+        { "action": "set_viewport", "width": 390, "height": 844 },
+        { "action": "navigate", "url": "/" },
+        {
+          "action": "expect_visible",
+          "selector": "header a img, header .logo"
+        },
+        { "action": "expect_visible", "selector": "a[href='/cart']" },
+        {
+          "action": "expect_visible",
+          "selector": "button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']"
+        }
+      ]
+    }
+  ]
+}
