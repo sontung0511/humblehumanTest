@@ -1,4 +1,4 @@
-// AUTO-GENERATED — 2026-03-30T08:16:10.646Z
+// AUTO-GENERATED — 2026-04-01T02:22:26.126Z
 // Suite: Product Page - Kiểm tra trang chi tiết sản phẩm
 // Source: product.scenarios.json
 // Chỉnh sửa file scenario JSON và chạy lại generator để cập nhật.

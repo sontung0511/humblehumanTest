@@ -1,4 +1,4 @@
-// AUTO-GENERATED — 2026-03-30T08:16:10.643Z
+// AUTO-GENERATED — 2026-04-01T02:22:26.123Z
 // Suite: Cart Page - Kiểm tra trang giỏ hàng
 // Source: cart.scenarios.json
 // Chỉnh sửa file scenario JSON và chạy lại generator để cập nhật.

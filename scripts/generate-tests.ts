@@ -57,10 +57,137 @@ interface ScenarioFile {
 // ─── CLI Args ────────────────────────────────────────────────────────────────
 
 const args = process.argv.slice(2);
+const _fileIdx = args.indexOf('--file');
 const fileArg = args.find((a) => a.startsWith('--file='))?.replace('--file=', '')
-  || (args[args.indexOf('--file') + 1]);
+  || (_fileIdx !== -1 ? args[_fileIdx + 1] : undefined);
+const _tagIdx = args.indexOf('--tag');
 const tagArg = args.find((a) => a.startsWith('--tag='))?.replace('--tag=', '')
-  || (args[args.indexOf('--tag') + 1] !== '--file' ? args[args.indexOf('--tag') + 1] : undefined);
+  || (_tagIdx !== -1 ? args[_tagIdx + 1] : undefined);
+const csvArg = args.includes('--csv');
+
+// ─── CSV Helpers ─────────────────────────────────────────────────────────────
+
+function stepToHumanReadable(step: Step): string {
+  const { action, url, selector, text, value, key, ms, count, operator,
+          width, height, x, y, property, items } = step;
+  switch (action) {
+    case 'navigate':            return `Truy cập URL: ${url}`;
+    case 'click':               return `Click vào phần tử: ${selector}`;
+    case 'click_text':          return `Click vào text: "${text}"`;
+    case 'fill':                return `Nhập "${value}" vào: ${selector}`;
+    case 'press_key':           return `Nhấn phím ${key} tại: ${selector}`;
+    case 'select_option':       return `Chọn option "${value}" tại: ${selector}`;
+    case 'hover':               return `Hover vào: ${selector}`;
+    case 'scroll_to':           return `Cuộn đến: ${selector}`;
+    case 'scroll_by':           return `Cuộn trang (x:${x ?? 0}, y:${y ?? 0})`;
+    case 'set_viewport':        return `Đặt viewport: ${width}x${height}`;
+    case 'wait':                return `Chờ ${ms}ms`;
+    case 'wait_for_url':        return `Chờ URL chứa: ${url}`;
+    case 'wait_for_selector':   return `Chờ xuất hiện: ${selector}`;
+    case 'expect_url':          return `URL bằng: ${url}`;
+    case 'expect_url_contains': return `URL chứa: ${url}`;
+    case 'expect_title_contains': return `Tiêu đề trang chứa: "${value}"`;
+    case 'expect_visible':      return `Phần tử hiển thị: ${selector}`;
+    case 'expect_not_visible':  return `Phần tử không hiển thị: ${selector}`;
+    case 'expect_text':         return `Text "${value}" xuất hiện tại: ${selector}`;
+    case 'expect_text_visible': return `Text hiển thị trên trang: "${value}"`;
+    case 'expect_count':        return `Số lượng ${selector} ${operator ?? 'gte'} ${count}`;
+    case 'expect_enabled':      return `Phần tử được enable: ${selector}`;
+    case 'expect_disabled':     return `Phần tử bị disable: ${selector}`;
+    case 'expect_in_viewport':  return `Phần tử nằm trong viewport: ${selector}`;
+    case 'expect_css_property': return `CSS property ${property} đúng tại: ${selector}`;
+    case 'expect_center_aligned': return `Phần tử canh giữa viewport: ${selector}`;
+    case 'expect_no_overflow':  return `Phần tử không bị tràn layout: ${selector}`;
+    case 'expect_no_reload_on_click': return `Click không gây reload: ${selector}`;
+    case 'expect_menu_order':   return `Thứ tự menu đúng: ${items?.join(', ')}`;
+    default:                    return `${action}: ${JSON.stringify(step)}`;
+  }
+}
+
+function getPlatform(tags?: string[]): string {
+  if (tags?.includes('mobile')) return 'Google Chrome Mobile';
+  return 'Google Chrome Desktop';
+}
+
+function getPriority(tags?: string[]): string {
+  if (tags?.includes('smoke')) return 'High';
+  if (tags?.includes('regression')) return 'Medium';
+  return 'Low';
+}
+
+function csvEscape(cell: string): string {
+  const str = String(cell ?? '');
+  if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+    return `"${str.replace(/"/g, '""')}`;
+  }
+  return str;
+}
+
+function generateCsvFile(scenarioFile: ScenarioFile, outputPath: string, filterTag?: string): void {
+  const scenarios = filterTag
+    ? scenarioFile.scenarios.filter((s) => s.tags?.includes(filterTag))
+    : scenarioFile.scenarios;
+
+  if (scenarios.length === 0) {
+    console.log(`⚠️  Không có scenario nào cho CSV: ${filterTag}`);
+    return;
+  }
+
+  const headers = [
+    'ID', 'Feature', 'Platform', 'Test summary',
+    'Pre-conditions', 'Steps', 'Test data', 'Priority',
+    'Expected result', 'Status', 'Actual result', 'Note',
+  ];
+  const rows: string[][] = [headers];
+
+  for (const scenario of scenarios) {
+    const steps = scenario.steps.filter((s) => !s._comment && !s._doc);
+
+    // Pre-conditions: first navigate step
+    const navStep = steps.find((s) => s.action === 'navigate');
+    const preConditions = navStep
+      ? `Truy cập: ${scenarioFile.baseUrl}${navStep.url ?? '/'}`
+      : '';
+
+    // Steps: all non-expect steps
+    const actionSteps = steps.filter((s) => !s.action.startsWith('expect_'));
+    const stepsText = actionSteps
+      .map((s, i) => `${i + 1}. ${stepToHumanReadable(s)}`)
+      .join('\n');
+
+    // Test data: values from fill steps
+    const fillSteps = steps.filter((s) => s.action === 'fill');
+    const testData = fillSteps
+      .map((s) => `${s.selector}: "${s.value}"`)
+      .join('\n');
+
+    // Expected result: all expect_* steps
+    const expectSteps = steps.filter((s) => s.action.startsWith('expect_'));
+    const expectedResult = expectSteps
+      .map((s, i) => `${i + 1}. ${stepToHumanReadable(s)}`)
+      .join('\n');
+
+    rows.push([
+      scenario.id,
+      scenarioFile.suiteName,
+      getPlatform(scenario.tags),
+      scenario.name,
+      preConditions,
+      stepsText,
+      testData,
+      getPriority(scenario.tags),
+      expectedResult,
+      '',  // Status
+      '',  // Actual result
+      '',  // Note
+    ]);
+  }
+
+  const csvContent = rows.map((row) => row.map(csvEscape).join(',')).join('\n');
+  // Prepend UTF-8 BOM so Excel opens Vietnamese text correctly
+  fs.writeFileSync(outputPath, '\uFEFF' + csvContent, 'utf8');
+  console.log(`✅ Generated CSV: ${outputPath} (${scenarios.length} rows)`);
+}
 
 // ─── Step code generator ─────────────────────────────────────────────────────
 
@@ -301,10 +428,14 @@ function generateTestFile(scenarioFile: ScenarioFile, outputPath: string, filter
 function main() {
   const scenariosDir = path.join(__dirname, '..', 'scenarios');
   const testsDir = path.join(__dirname, '..', 'tests', 'generated');
+  const csvDir = path.join(__dirname, '..', 'reports', 'csv');
 
-  // Ensure output directory exists
+  // Ensure output directories exist
   if (!fs.existsSync(testsDir)) {
     fs.mkdirSync(testsDir, { recursive: true });
+  }
+  if (csvArg && !fs.existsSync(csvDir)) {
+    fs.mkdirSync(csvDir, { recursive: true });
   }
 
   // Collect scenario files
@@ -332,6 +463,7 @@ function main() {
   console.log(`\n🎭 Humble Human - Playwright Test Generator`);
   console.log(`📂 Scenario files: ${scenarioFiles.length}`);
   if (tagArg) console.log(`🏷️  Filter tag: ${tagArg}`);
+  if (csvArg) console.log(`📊 Mode: Generate CSV`);
   console.log('');
 
   for (const filePath of scenarioFiles) {
@@ -340,17 +472,27 @@ function main() {
       const scenarioFile: ScenarioFile = JSON.parse(raw);
 
       const baseName = path.basename(filePath, '.scenarios.json');
-      const outputPath = path.join(testsDir, `${baseName}.spec.ts`);
 
-      generateTestFile(scenarioFile, outputPath, tagArg);
+      if (csvArg) {
+        const csvPath = path.join(csvDir, `${baseName}.csv`);
+        generateCsvFile(scenarioFile, csvPath, tagArg);
+      } else {
+        const outputPath = path.join(testsDir, `${baseName}.spec.ts`);
+        generateTestFile(scenarioFile, outputPath, tagArg);
+      }
     } catch (err) {
       console.error(`❌ Lỗi xử lý file ${filePath}:`, err);
     }
   }
 
-  console.log('\n✨ Hoàn thành! Chạy tests bằng:');
-  console.log('   npx playwright test tests/generated/');
-  console.log('   npx playwright test tests/generated/ --reporter=html\n');
+  if (csvArg) {
+    console.log('\n✨ Hoàn thành! CSV files lưu tại:');
+    console.log(`   ${csvDir}\n`);
+  } else {
+    console.log('\n✨ Hoàn thành! Chạy tests bằng:');
+    console.log('   npx playwright test tests/generated/');
+    console.log('   npx playwright test tests/generated/ --reporter=html\n');
+  }
 }
 
 main();

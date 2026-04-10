@@ -1,4 +1,4 @@
-// AUTO-GENERATED — 2026-03-30T08:16:10.646Z
+// AUTO-GENERATED — 2026-04-01T02:22:26.127Z
 // Suite: Search & Navigation - Kiểm tra tìm kiếm và điều hướng
 // Source: search.scenarios.json
 // Chỉnh sửa file scenario JSON và chạy lại generator để cập nhật.
@@ -26,8 +26,8 @@ test.describe('Search & Navigation - Kiểm tra tìm kiếm và điều hướng
     await page.goto(BASE_URL + '/search');
     await page.locator(`input[name='q']`).fill('áo');
     await page.locator(`input[name='q']`).press('Enter');
-    const count_u0l6 = await page.locator(`a[href*='/products/']`).count();
-    expect(count_30r4).toBeGreaterThanOrEqual(1);
+    const count_kv7x = await page.locator(`a[href*='/products/']`).count();
+    expect(count_6oe9).toBeGreaterThanOrEqual(1);
   });
 
   test('TC_SRCH_004 — Click icon tìm kiếm trên header mở trang search [navigation]', async ({ page }) => {

@@ -1,4 +1,4 @@
-// AUTO-GENERATED — 2026-03-30T08:16:10.645Z
+// AUTO-GENERATED — 2026-04-01T02:22:26.126Z
 // Suite: Home Page - Kiểm tra trang chủ
 // Source: home.scenarios.json
 // Chỉnh sửa file scenario JSON và chạy lại generator để cập nhật.

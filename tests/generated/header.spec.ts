@@ -1,4 +1,4 @@
-// AUTO-GENERATED — 2026-03-30T08:16:10.645Z
+// AUTO-GENERATED — 2026-04-01T02:22:26.125Z
 // Suite: Global Header - Desktop & Mobile
 // Source: header.scenarios.json
 // Chỉnh sửa file scenario JSON và chạy lại generator để cập nhật.
@@ -205,8 +205,8 @@ test.describe('Global Header - Desktop & Mobile', () => {
     await expect(page).toHaveURL(/\/search/, { timeout: 15000 });
     await page.locator(`input[name='q']`).fill('áo');
     await page.locator(`input[name='q']`).press('Enter');
-    const count_q6k7 = await page.locator(`a[href*='/products/']`).count();
-    expect(count_vxic).toBeGreaterThanOrEqual(1);
+    const count_qrca = await page.locator(`a[href*='/products/']`).count();
+    expect(count_umxl).toBeGreaterThanOrEqual(1);
   });
 
   test('TC_HDR_D_EDGE_001 — [Desktop][Edge] URL menu lỗi - UI không crash, header vẫn ổn định [desktop] [edge]', async ({ page }) => {
@@ -477,8 +477,8 @@ test.describe('Global Header - Desktop & Mobile', () => {
     await page.waitForTimeout(100);
     await page.locator(`button[class*='burger'], button[class*='menu'], [class*='hamburger'], [aria-label*='menu']`).first().click();
     await page.waitForTimeout(500);
-    const count_y32n = await page.locator(`[class*='overlay'], [class*='mobile-menu'], [class*='drawer']`).count();
-    expect(count_mqrq).toBeLessThanOrEqual(1);
+    const count_tky6 = await page.locator(`[class*='overlay'], [class*='mobile-menu'], [class*='drawer']`).count();
+    expect(count_tthu).toBeLessThanOrEqual(1);
   });
 
   test('TC_HDR_M_EDGE_007 — [Mobile][Edge] Click trong khi overlay đang animation - UI không lỗi [mobile] [edge]', async ({ page }) => {

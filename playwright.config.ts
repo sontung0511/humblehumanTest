@@ -18,6 +18,10 @@ export default defineConfig({
   /* Shared settings for all projects */
   use: {
     baseURL: 'https://humblehuman.vn',
+    /* Hiện browser khi chạy test — đặt thành true để thấy trình duyệt thao tác */
+    headless: false,
+    /* Làm chậm mỗi action (ms) để dễ quan sát — đặt 0 nếu muốn chạy nhanh */
+    // slowMo: 500,
     /* Collect trace when retrying the failed test */
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',

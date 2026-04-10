@@ -1,4 +1,4 @@
-// AUTO-GENERATED — 2026-03-30T08:16:10.644Z
+// AUTO-GENERATED — 2026-04-01T02:22:26.124Z
 // Suite: Collection Page - Kiểm tra trang danh mục sản phẩm
 // Source: collection.scenarios.json
 // Chỉnh sửa file scenario JSON và chạy lại generator để cập nhật.
@@ -17,8 +17,8 @@ test.describe('Collection Page - Kiểm tra trang danh mục sản phẩm', () =
 
   test('TC_COL_002 — Trang danh mục hiển thị ít nhất 1 sản phẩm [smoke]', async ({ page }) => {
     await page.goto(BASE_URL + '/collections/all');
-    const count_r5qf = await page.locator(`a[href*='/products/']`).count();
-    expect(count_wrvy).toBeGreaterThanOrEqual(1);
+    const count_2id8 = await page.locator(`a[href*='/products/']`).count();
+    expect(count_ji6q).toBeGreaterThanOrEqual(1);
   });
 
   test('TC_COL_003 — Menu điều hướng sang các danh mục: Áo, Quần, Túi, Nón [navigation]', async ({ page }) => {
